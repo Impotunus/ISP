@@ -1,0 +1,108 @@
+﻿body {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+/* Set padding to keep content from hitting the edges */
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
+*/
+.dl-horizontal dt {
+    white-space: normal;
+}
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+
+/* Span */
+.profile-info-item {
+    color: black;
+    font-weight: bold;
+}
+.profile-info-key {
+    color: grey;
+}
+.active-plans-message {
+    line-height: 33px;
+}
+.plan-cost {
+    font-weight: bold;
+}
+/* /Span */
+/* Headers */
+.service-item-title {
+    text-align: center;
+    margin-top: 0;
+}
+
+/* /Headers */
+
+/* Forms */
+.service-item-subscribe-form {
+    display: inline-block;
+}
+/* /Forms */
+
+/* Services */
+.service-item-wrapper {
+    margin-bottom: 15px;
+} 
+.service-item-description {
+    text-align: center;
+    color: grey;
+}
+
+.service-item-links-center {
+    padding-top: 7px;
+    text-align: center;
+}
+/* /Services */
+
+/* Plans */
+.plan-item-wrapper {
+    margin-bottom: 30px;
+}
+.plan-item-description {
+    
+}
+.plan-item-title {
+    margin-top: 5px;
+    
+}
+.plan-item-features {
+    
+}
+/* /Plans */
+
+/* Errors */
+.create-edit-validation-error,
+.register-validation-error {
+    display: block;
+    line-height: 33px;
+    padding-left: 7px;
+    color: #e62323;
+}
+.validation-summary-errors {
+    background: #ff8181;
+    color: white;
+    display: block;
+    width: 400px;
+    padding: 5px;
+}
+/* /Errors */
+
+/* Admin users */
+.users-search-form {
+    margin-bottom: 16px;
+}
+/* /Admin users */

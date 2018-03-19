@@ -1,0 +1,49 @@
+﻿@model ISP.ViewModels.FeatureViewModels.FeatureListViewModel
+
+@{
+    ViewBag.Title = "Features manager";
+}
+
+<div class="row">
+    <div class="page-header">
+        <h3 class="pull-left">Features</h3>
+        <a href="@Url.Action("Create", "Feature", new { planId = Model.PlanId })" class="btn btn-success pull-right" style="margin-top: 16px;"><span class="glyphicon glyphicon-plus"></span> Create</a>
+        <div class="clearfix"></div>
+    </div>
+    @if (Model.FeatureViewModels.Any())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.FeatureViewModels.First().Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.FeatureViewModels.First().Description)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.FeatureViewModels)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Delete", "Delete", "Feature", new { featureId = item.Id }, null)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-danger">No features for plan.</div>
+    }
+</div>
+
+

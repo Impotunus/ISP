@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ISP.ViewModels.ServiceViewModels.ServiceViewModel>
+
+@{
+    ViewBag.Title = "Services management";
+}
+
+<div class="row">
+    <div class="page-header">
+        <h3 class="pull-left">Services</h3>
+        <a href="@Url.Action("CreateService", "Service")" class="btn btn-success pull-right" style="margin-top: 16px;"><span class="glyphicon glyphicon-plus"></span> Create</a>
+        <div class="clearfix"></div>
+    </div> 
+    
+    @if (Model.Any())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Description)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Description)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditService", "Service", new {serviceId = item.Id}, null) |
+                        @Html.ActionLink("Plans", "GetPlansForAdmin", "Plan", new {serviceId = item.Id}, null) |
+                        @Html.ActionLink("Delete", "DeleteService", "Service", new {serviceId = item.Id}, null)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-danger">No services found.</div>
+    }
+
+</div>

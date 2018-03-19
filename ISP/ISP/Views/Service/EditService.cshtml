@@ -1,0 +1,44 @@
+﻿@model ISP.ViewModels.ServiceViewModels.ServiceCreateViewModel
+
+@{
+    ViewBag.Title = "Edit the service";
+}
+
+<div class="page-header">
+    <h3>Edit the service "@Model.ServiceViewModel.Title".</h3>
+</div>
+
+@using (Html.BeginForm("UpdateService", "Service", FormMethod.Post))
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="form-group">
+            @Html.LabelFor(model => model.ServiceViewModel.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ServiceViewModel.Title, new { htmlAttributes = new { @class = "form-control pull-left" } })
+                @Html.ValidationMessageFor(model => model.ServiceViewModel.Title, "", new { @class = "create-edit-validation-error pull-left" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ServiceViewModel.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ServiceViewModel.Description, new { htmlAttributes = new { @class = "form-control pull-left" } })
+                @Html.ValidationMessageFor(model => model.ServiceViewModel.Description, "", new { @class = "create-edit-validation-error pull-left" })
+            </div>
+        </div>
+        
+        @Html.HiddenFor(model => model.ServiceViewModel.Id)
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-success" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to list of services", "GetServicesForAdmin", "Service", null, null)
+</div>

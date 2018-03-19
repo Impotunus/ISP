@@ -1,0 +1,56 @@
+﻿@using System.Globalization
+@using ISP.IdentityExtensions
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - My ASP.NET Application</title>
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+    <div class="navbar navbar-fixed-top navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                </button>
+                <a href="#" class="navbar-brand">ISP</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav pull-right">
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>@Html.ActionLink($"{User.Identity.Name}", "Index", "Profile", new { userName = User.Identity.Name }, null)</li>
+                        <li>@Html.ActionLink($"Put money", "PutMoney", "Balance", new { userName = User.Identity.Name }, null)</li>
+                        if (User.IsInRole("admin"))
+                        {
+                            <li>@Html.ActionLink($"Register an account", "Register", "Account")</li>
+                            <li>@Html.ActionLink($"Manage users", "Users", "Admin")</li>
+                            <li>@Html.ActionLink($"Manage services", "GetServicesForAdmin", "Service", null, null)</li>
+                        }
+                        <li>@Html.ActionLink($"{User.Identity.GetUserBalance().ToString("C", CultureInfo.GetCultureInfo("en-US"))}",
+                           "Index", "Profile", new { userName = User.Identity.Name }, null)</li>
+                        <li>@Html.ActionLink($"Log out", "Logout", "Account")</li>
+                    }
+                    else
+                    {
+                        <li>@Html.ActionLink($"Log in", "Login", "Account")</li>
+                    }
+                </ul>
+            </div>
+        </div>
+    </div>
+<div class="container body-content">
+    @RenderBody()
+    <hr/>
+    <footer>
+        <p>&copy; @DateTime.Now.Year - ISP by Kirill Prihodko</p>
+    </footer>
+</div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+</body>
+</html>

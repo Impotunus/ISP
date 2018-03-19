@@ -1,0 +1,56 @@
+﻿@using System.Globalization
+@model ISP.ViewModels.PlanViewModels.PlanOutputViewModel
+
+@{
+    ViewBag.Title = "Plans management";
+}
+
+<div class="row">
+    <div class="page-header">
+        <h3 class="pull-left">Plans for service "@Model.ServiceTitle".</h3>
+        <a href="@Url.Action("CreatePlan", "Plan", new { serviceId = Model.ServiceId })" class="btn btn-success pull-right" style="margin-top: 16px;"><span class="glyphicon glyphicon-plus"></span> Create</a>
+        <div class="clearfix"></div>
+    </div> 
+    @if (Model.PlanViewModels.Any())
+    {
+        <table class="table table-bordered">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.PlanViewModels.First().Title)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PlanViewModels.First().Cost)
+                </th>
+                <th>
+                    Service
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.PlanViewModels)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Title)
+                    </td>
+                    <td>
+                        @item.Cost.ToString("C", CultureInfo.GetCultureInfo("en-US"))
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Service.Title)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "EditPlan", "Plan", new { planId = item.Id }, null) |
+                        @Html.ActionLink("Features", "Index", "Feature", new { planId = item.Id }, null) |
+                        @Html.ActionLink("Delete", "DeletePlan", "Plan", new { planId = item.Id }, null)
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        <div class="alert alert-danger">No plans found.</div>
+    }
+</div>

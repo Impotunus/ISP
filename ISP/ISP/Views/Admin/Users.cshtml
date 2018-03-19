@@ -1,0 +1,49 @@
+﻿@using PagedList.Mvc
+@model PagedList.IPagedList<ISP.ViewModels.ProfileViewModels.UserViewModel>
+@{
+    ViewBag.Title = "Users";
+}
+
+<div class="row">
+    <div class="page-header">
+        <h3>Users</h3>
+    </div>   
+
+    @using (Html.BeginForm("FindUser", "Admin", FormMethod.Get, new {@class = "form-inline users-search-form"}))
+    {
+        <div class="form-group">
+            <input type="text" class="form-control" id="userName" name="userName" placeholder="Username..."/>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+    }
+    
+    @if (Model.TotalItemCount > 0)
+    {
+        <table class="table table-bordered">
+            <thead>
+                <th>Username</th>
+                <th>Firstname</th>
+                <th>Lastname</th>
+                <th></th>
+            </thead>
+            @foreach (var userViewModel in Model)
+            {
+                <tr>
+                    <td>@userViewModel.UserName</td>
+                    <td>@userViewModel.FirstName</td>
+                    <td>@userViewModel.LastName</td>
+                    <td>@Html.ActionLink("Profile", "Index", "Profile", new { userName = userViewModel.UserName }, null)</td>
+                </tr>
+            }
+        </table>
+        @Html.PagedListPager(Model, t => Url.Action("Users", "Admin", new { page = t},string.Empty))
+    }
+    else
+    {
+        <div class="alert alert-danger" role="alert">No users found.</div>
+    }
+
+</div>
+
+
+

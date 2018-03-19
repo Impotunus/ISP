@@ -1,0 +1,90 @@
+﻿@using System.Globalization
+@model ISP.ViewModels.ProfileViewModels.ProfileViewModel
+@{
+    ViewBag.Title = $"{Model.User.UserName} Profile";
+}
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="panel panel-info">
+            <div class="panel-heading">
+                <div class="panel-title"><h4>@Model.User.UserName</h4></div>
+            </div>
+            <ul class="list-group">
+                <li class="list-group-item"><span class="profile-info-key">First name:</span> <span class="profile-info-item">@Model.User.FirstName</span></li>
+                <li class="list-group-item"><span class="profile-info-key">Last name:</span> <span class="profile-info-item">@Model.User.LastName</span></li>
+                <li class="list-group-item"><span class="profile-info-key">Email:</span> <span class="profile-info-item">@Model.User.Email</span></li>
+                <li class="list-group-item"><span class="profile-info-key">Balance:</span> <span class="profile-info-item">@Model.User.Balance.ToString("C", CultureInfo.GetCultureInfo("en-US"))</span></li>
+                @if (User.IsInRole("admin"))
+                {
+                    <li class="list-group-item">@Html.ActionLink("Put money [admin]", "PutMoney", "Balance", new { userName = Model.User.UserName }, null)</li>
+                    if (Model.User.AdminBanned && !Model.User.Role.Equals("admin"))
+                    {
+                        <li class="list-group-item">@Html.ActionLink("Unban [admin]", "Unban", "Profile", new {userName = Model.User.UserName}, null)</li>
+                    }
+                    else if (!Model.User.Role.Equals("admin"))
+                    {
+                        <li class="list-group-item">@Html.ActionLink("Ban [admin]", "Ban", "Profile", new { userName = Model.User.UserName }, null)</li>
+                    }
+                }
+            </ul>
+        </div>
+    </div>
+    
+
+    <div class="col-md-9">
+        <div class="alert alert-success" role="alert">
+            @if (string.Join(", ", Model.ActivePlans).Length > 0)
+            {
+                <span class="pull-left active-plans-message">Active plans: @string.Join(", ", Model.ActivePlans) </span>
+            }
+            else
+            {
+                <span class="pull-left active-plans-message">No active plans.</span>
+            }
+            <a href="@Url.Action("GetPlans", "Plan", null)" class="btn btn-primary pull-right"><span class='glyphicon glyphicon-download-alt'></span> Download plans</a>
+            <div class="clearfix"></div>
+        </div>
+        <div class="row">
+            @if (Model.ServiceSubscribtions.Any())
+            {
+                foreach (var service in Model.ServiceSubscribtions)
+                {
+                    <div class="col-md-4 service-item-wrapper">
+                        <div class="thumbnail">
+                            <div class="caption">
+                                <h3 class="service-item-title">@service.Key.Title</h3>
+                                <p class="service-item-description">@service.Key.Description</p>
+                                <div class="center-block service-item-links-center">
+                                    @if (service.Value)
+                                    {
+                                        using (Html.BeginForm("UnsubscribeFromService", "Profile", FormMethod.Post, new { @class = "service-item-subscribe-form" }))
+                                        {
+                                            <input type="hidden" name="userName" value="@Model.User.UserName" />
+                                            <input type="hidden" name="serviceId" value="@service.Key.Id" />
+                                            <input type="submit" class="btn btn-primary" value="Unsubscribe" />
+                                        }
+                                    }
+                                    else
+                                    {
+                                        using (Html.BeginForm("SubscribeToService", "Profile", FormMethod.Post, new { @class = "service-item-subscribe-form" }))
+                                        {
+                                            <input type="hidden" name="userName" value="@Model.User.UserName" />
+                                            <input type="hidden" name="serviceId" value="@service.Key.Id" />
+                                            <input type="submit" class="btn btn-primary" value="Subscribe" />
+                                        }
+                                    }
+                                    <a href="@Url.Action("Index", "Plan", new {serviceId = service.Key.Id, userName = Model.User.UserName})" class="btn btn-default" role="button">Plans</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <h4>No available services at the moment.</h4>
+            }
+         </div>
+    </div>
+</div>
